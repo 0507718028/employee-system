@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة الموظفين - الحرم المكي</title>
+    <style>
+        /* أنماط واجهة الحرم */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            height: 100vh;
+            overflow: hidden;
+            background: #f8f3e9;
+        }
+        
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .background-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+        
+        .background-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .logo {
+            width: 180px;
+            height: 180px;
+            margin-bottom: 30px;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .logo img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        .enter-btn {
+            margin-top: 40px;
+            padding: 15px 40px;
+            font-size: 18px;
+            background: linear-gradient(135deg, #0d8043 0%, #0a5c32 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        .enter-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #0a5c32 0%, #0d8043 100%);
+        }
+        
+        .welcome-text {
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .welcome-text h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .welcome-text p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        /* أنماط نظام إدارة الموظفين */
+        #employeeSystem {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            overflow-y: auto;
+            background-color: #f7f7f7;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        
+        :root {
+            --primary: #007bff;
+            --secondary: #6c757d;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50, #1a2530);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        h1, h2, h3, h4 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-info {
+            background-color: var(--info);
+            color: white;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        input[type="text"], input[type="number"], select {
+            padding: 10px;
+            width: 200px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin: 5px;
+            font-size: 16px;
+        }
+        
+        table {
+            width: 100%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .flash {
+            animation: flash 1.5s infinite;
+        }
+        
+        @keyframes flash {
+            0%, 50%, 100% {
+                opacity: 1;
+                color: #ffc107;
+            }
+            25%, 75% {
+                opacity: 0.7;
+                color: #ff5722;
+            }
+        }
+        
+        .pulse {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-left: 8px;
+            animation: pulse-animation 1.5s infinite;
+        }
+        
+        @keyframes pulse-animation {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(255, 193, 7, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
+            }
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow: auto;
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .close {
+            color: #aaa;
+            float: left;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: black;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            background: #f1f1f1;
+            border-radius: 5px 5px 0 0;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            background: var(--primary);
+            color: white;
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 0 0 8px 8px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .login-section {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .panel {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-approved {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-rejected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .action-btn {
+            position: relative;
+            min-width: 180px;
+            margin: 10px;
+            padding: 15px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .count-badge {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            background-color: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .search-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .search-input {
+            width: 300px !important;
+            padding: 12px 20px !important;
+            border: 2px solid #ddd !important;
+            border-radius: 30px !important;
+        }
+        
+        .employee-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .employee-info {
+            flex: 1;
+        }
+        
+        .employee-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .welcome-text h1 {
+                font-size: 2rem;
+            }
+            
+            .welcome-text p {
+                font-size: 1rem;
+            }
+            
+            .enter-btn {
+                padding: 12px 30px;
+                font-size: 16px;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            input[type="text"], input[type="number"], select {
+                width: 100%;
+                margin: 5px 0;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                width: 100%;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                margin: 5px 0;
+                border-radius: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- واجهة الحرم -->
+    <div id="haramInterface">
+        <div class="background-container">
+            <img src="HARAM.PNG" alt="خلفية الحرم المكي" class="background-image">
+        </div>
+        
+        <div class="content">
+            <div class="logo">
+                <img src="LOGO.PNG" alt="شعار الموقع">
+            </div>
+            
+            <div class="welcome-text">
+                <h1>مرحباً بكم في موقعنا</h1>
+                <p>نسعى لتقديم أفضل الخدمات لزوار الحرم المكي</p>
+            </div>
+            
+            <button class="enter-btn" onclick="showEmployeeSystem()">دخول</button>
+        </div>
+    </div>
+
+    <!-- نظام إدارة الموظفين -->
+    <div id="employeeSystem">
+        <div class="container">
+            <header>
+                <h1>نظام إدارة الموظفين</h1>
+                <p>نظام متكامل لإدارة طلبات الموظفين ومتابعتها</p>
+            </header>
+            
+            <div class="login-section">
+                <h2>تسجيل الدخول</h2>
+                <input type="text" id="employeeIdInput" placeholder="أدخل الرقم الوظيفي">
+                <button class="btn-primary" type="button" onclick="loginEmployee()">دخول الموظف</button>
+                <button class="btn-info" type="button" onclick="loginAdmin()">دخول المسؤول</button>
+                <button class="btn-warning" type="button" onclick="openEmployeeManagement()">إدارة الموظفين</button>
+                <button class="btn-danger" type="button" onclick="resetData()">إعادة تعيين البيانات</button>
+            </div>
+            
+            <!-- لوحة الموظف -->
+            <div id="employeePanel" class="panel">
+                <h2 id="welcomeMsg"></h2>
+                
+                <div class="employee-card">
+                    <div class="employee-info">
+                        <h3>معلومات الموظف</h3>
+                        <p>رصيد الإجازات المتبقي: <strong><span id="leaveBalanceDisplay"></span> يوم</strong></p>
+                    </div>
+                    <button class="btn-primary" type="button" onclick="requestLeave()">طلب إجازة</button>
+                </div>
+                
+                <h3>طلباتك السابقة:</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>نوع الطلب</th>
+                            <th>التفاصيل</th>
+                            <th>الأيام</th>
+                            <th>رئيس القسم</th>
+                            <th>المدير</th>
+                            <th>الإدارة</th>
+                            <th>التنفيذ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employeeRequestsTable"></tbody>
+                </table>
+            </div>
+            
+            <!-- لوحة المسؤول -->
+            <div id="adminPanel" class="panel">
+                <h2>لوحة المسؤولين</h2>
+                
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="search-input" placeholder="بحث باسم أو رقم الموظف" oninput="filterRequests()">
+                </div>
+                
+                <div class="action-buttons">
+                    <button id="chiefBtn" type="button" onclick="openChief()" class="action-btn btn-warning">
+                        رئيس القسم
+                        <span id="chiefCount" class="count-badge">0</span>
+                    </button>
+                    
+                    <button id="managerBtn" type="button" onclick="openManager()" class="action-btn btn-info">
+                        المدير
+                        <span id="managerCount" class="count-badge">0</span>
+                    </button>
+                    
+                    <button id="adminBtn" type="button" onclick="openAdmin()" class="action-btn btn-success">
+                        الإدارة
+                        <span id="adminCount" class="count-badge">0</span>
+                    </button>
+                </div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>اسم الموظف</th>
+                            <th>الرقم الوظيفي</th>
+                            <th>القسم</th>
+                            <th>نوع الطلب</th>
+                            <th>التفاصيل</th>
+                            <th>الأيام</th>
+                            <th>حالة الرئيس</th>
+                            <th>حالة المدير</th>
+                            <th>حالة الإدارة</th>
+                            <th>التنфиذ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="requestsTable"></tbody>
+                </table>
+            </div>
+            
+            <!-- إدارة الموظفين -->
+            <div id="employeeManagementModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeEmployeeManagement()">&times;</span>
+                    <h2>إدارة الموظفين</h2>
+                    
+                    <div class="tabs">
+                        <div class="tab active" onclick="switchTab('addManual', event)">إضافة يدوية</div>
+                        <div class="tab" onclick="switchTab('uploadExcel', event)">رفع ملف Excel</div>
+                        <div class="tab" onclick="switchTab('viewEmployees', event)">عرض الموظفين</div>
+                    </div>
+                    
+                    <div id="addManual" class="tab-content active">
+                        <h3>إضافة موظف جديد</h3>
+                        <input type="text" id="empName" placeholder="اسم الموظف">
+                        <input type="text" id="empId" placeholder="الرقم الوظيفي">
+                        <input type="text" id="empSection" placeholder="القسم">
+                        <input type="number" id="empLeaveBalance" placeholder="رصيد الإجازات" value="21">
+                        <button class="btn-success" type="button" onclick="addEmployeeManually()">إضافة</button>
+                    </div>
+                    
+                    <div id="uploadExcel" class="tab-content">
+                        <h3>رفع ملف Excel</h3>
+                        <input type="file" id="excelFile" accept=".xlsx, .xls">
+                        <button class="btn-primary" type="button" onclick="readExcelFile()">استيراد</button>
+                    </div>
+                    
+                    <div id="viewEmployees" class="tab-content">
+                        <h3>قائمة الموظفين</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>الاسم</th>
+                                    <th>الرقم</th>
+                                    <th>القسم</th>
+                                    <th>الرصيد</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="employeesTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script>
+        // --- وظائف الانتقال بين الواجهات ---
+        function showEmployeeSystem() {
+            document.getElementById('haramInterface').style.display = 'none';
+            document.getElementById('employeeSystem').style.display = 'block';
+        }
+        
+        function showHaramInterface() {
+            document.getElementById('employeeSystem').style.display = 'none';
+            document.getElementById('haramInterface').style.display = 'block';
+        }
+        
+        // --- بيانات ---
+        let employees = [
+            {name: 'عبدالله', id: '9001', section: 'الحرم', leaveBalance: 21},
+            {name: 'محمد', id: '9002', section: 'السجاد', leaveBalance: 18},
+            {name: 'أحمد', id: '9003', section: 'الحرم', leaveBalance: 15}
+        ];
+        
+        let requests = [];
+        let currentUser = null;
+        let currentEmployeeId = null;
+        
+        // --- تخزين محلي ---
+        function saveDataToLocalStorage() {
+            localStorage.setItem('employees', JSON.stringify(employees));
+            localStorage.setItem('requests', JSON.stringify(requests));
+            console.log('تم حفظ البيانات في localStorage');
+        }
+        
+        function loadDataFromLocalStorage() {
+            let empData = localStorage.getItem('employees');
+            let reqData = localStorage.getItem('requests');
+            
+            if (empData) {
+                employees = JSON.parse(empData);
+                console.log('تم تحميل بيانات الموظفين من localStorage');
+            }
+            
+            if (reqData) {
+                requests = JSON.parse(reqData);
+                console.log('تم تحميل بيانات الطلبات من localStorage');
+            }
+        }
+        
+        function resetData() {
+            if (confirm('هل أنت متأكد من أنك تريد إعادة تعيين جميع البيانات؟ سيتم حذف جميع الموظفين والطلبات.')) {
+                localStorage.removeItem('employees');
+                localStorage.removeItem('requests');
+                
+                // إعادة البيانات الافتراضية
+                employees = [
+                    {name: 'عبدالله', id: '9001', section: 'الحرم', leaveBalance: 21},
+                    {name: 'محمد', id: '9002', section: 'السجاد', leaveBalance: 18},
+                    {name: 'أحمد', id: '9003', section: 'الحرم', leaveBalance: 15}
+                ];
+                
+                requests = [];
+                
+                saveDataToLocalStorage();
+                alert('تم إعادة تعيين البيانات بنجاح');
+                
+                // إعادة تحميل الواجهة
+                if (currentUser && currentUser.id === 'admin') {
+                    renderEmployeesTable();
+                    renderRequests();
+                    updateCounts();
+                }
+            }
+        }
+        
+        // تحميل البيانات عند بدء التشغيل
+        loadDataFromLocalStorage();
+        
+        // --- دخول ---
+        function loginEmployee() {
+            let id = document.getElementById('employeeIdInput').value.trim();
+            let emp = employees.find(e => e.id === id);
+            
+            if (!emp) {
+                alert('⚠️ الرقم غير مسجل');
+                return;
+            }
+            
+            currentEmployeeId = id;
+            currentUser = emp;
+            
+            document.getElementById('employeePanel').style.display = 'block';
+            document.getElementById('adminPanel').style.display = 'none';
+            
+            document.getElementById('welcomeMsg').innerText = `مرحباً ${emp.name}`;
+            document.getElementById('leaveBalanceDisplay').innerText = emp.leaveBalance;
+            
+            renderEmployeeRequests();
+        }
+        
+        function loginAdmin() {
+            currentUser = {name: 'مسؤول', id: 'admin'};
+            
+            document.getElementById('adminPanel').style.display = 'block';
+            document.getElementById('employeePanel').style.display = 'none';
+            
+            updateCounts();
+            renderRequests();
+            startFlashingButtons();
+        }
+        
+        // --- تأثير الوميض على الأزرار ---
+        function startFlashingButtons() {
+            const buttons = ['chiefBtn', 'managerBtn', 'adminBtn'];
+            
+            buttons.forEach(btnId => {
+                const btn = document.getElementById(btnId);
+                const count = parseInt(document.getElementById(btnId.replace('Btn', 'Count')).innerText);
+                
+                if (count > 0) {
+                    btn.classList.add('flash');
+                } else {
+                    btn.classList.remove('flash');
+                }
+            });
+        }
+        
+        // --- طلب إجازة ---
+        function requestLeave() {
+            let reason = prompt('سبب الإجازة:');
+            if (!reason) return;
+            
+            let days = parseInt(prompt('عدد الأيام:'), 10);
+            if (!days || days <= 0) return;
+            
+            let emp = employees.find(e => e.id === currentEmployeeId);
+            
+            if (emp.leaveBalance < days) {
+                alert('الرصيد غير كاف');
+                return;
+            }
+            
+            let req = {
+                employeeId: emp.id,
+                employeeName: emp.name,
+                section: emp.section,
+                type: 'إجازة',
+                reason: reason,
+                days: days,
+                statusChief: 'pending',
+                statusManager: 'pending',
+                statusAdmin: 'pending',
+                statusExecute: 'pending',
+                chiefNote: '',
+                managerNote: '',
+                adminNote: '',
+                date: new Date().toLocaleDateString('ar-SA')
+            };
+            
+            requests.push(req);
+            emp.leaveBalance -= days;
+            
+            saveDataToLocalStorage();
+            alert('✅ تم إرسال الطلب');
+            
+            renderEmployeeRequests();
+            updateCounts();
+            renderRequests();
+        }
+        
+        // --- حذف أو نقل موظف ---
+        function requestDeleteEmployee(id) {
+            let emp = employees.find(e => e.id === id);
+            if (!emp) return;
+            
+            let reason = prompt(`سبب حذف ${emp.name}:`);
+            if (!reason) return;
+            
+            let req = {
+                employeeId: emp.id,
+                employeeName: emp.name,
+                section: emp.section,
+                type: 'حذف',
+                reason: reason,
+                statusChief: 'pending',
+                statusManager: 'pending',
+                statusAdmin: 'pending',
+                statusExecute: 'pending',
+                chiefNote: '',
+                managerNote: '',
+                adminNote: '',
+                date: new Date().toLocaleDateString('ar-SA')
+            };
+            
+            requests.push(req);
+            saveDataToLocalStorage();
+            
+            alert('✅ تم إرسال طلب حذف');
+            updateCounts();
+            renderRequests();
+        }
+        
+        function requestTransferEmployee(id) {
+            let emp = employees.find(e => e.id === id);
+            if (!emp) return;
+            
+            let newSec = prompt(`إلى أي قسم تريد نقل ${emp.name}?`);
+            if (!newSec) return;
+            
+            let req = {
+                employeeId: emp.id,
+                employeeName: emp.name,
+                section: emp.section,
+                newSection: newSec,
+                type: 'نقل',
+                statusChief: 'pending',
+                statusManager: 'pending',
+                statusAdmin: 'pending',
+                statusExecute: 'pending',
+                chiefNote: '',
+                managerNote: '',
+                adminNote: '',
+                date: new Date().toLocaleDateString('ar-SA')
+            };
+            
+            requests.push(req);
+            saveDataToLocalStorage();
+            
+            alert('✅ تم إرسال طلب نقل');
+            updateCounts();
+            renderRequests();
+        }
+        
+        // --- عرض طلبات الموظف ---
+        function renderEmployeeRequests() {
+            let tbody = document.getElementById('employeeRequestsTable');
+            tbody.innerHTML = '';
+            
+            let employeeRequests = requests.filter(r => r.employeeId === currentEmployeeId);
+            
+            if (employeeRequests.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7">لا توجد طلبات سابقة</td></tr>';
+                return;
+            }
+            
+            employeeRequests.forEach(r => {
+                let getStatusBadge = (status) => {
+                    if (status === 'pending') return '<span class="status-badge status-pending">⏳ قيد الانتظار</span>';
+                    if (status === 'approved') return '<span class="status-badge status-approved">✅ موافق</span>';
+                    if (status === 'rejected') return '<span class="status-badge status-rejected">❌ مرفوض</span>';
+                    return status;
+                };
+                
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${r.type}</td>
+                    <td>${r.reason || r.newSection || ''}</td>
+                    <td>${r.days || ''}</td>
+                    <td>${getStatusBadge(r.statusChief)}</td>
+                    <td>${getStatusBadge(r.statusManager)}</td>
+                    <td>${getStatusBadge(r.statusAdmin)}</td>
+                    <td>${getStatusBadge(r.statusExecute)}</td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+        }
+        
+        // --- إدارة counts ---
+        function updateCounts() {
+            const chiefCount = requests.filter(r => r.statusChief === 'pending').length;
+            const managerCount = requests.filter(r => r.statusChief === 'approved' && r.statusManager === 'pending').length;
+            const adminCount = requests.filter(r => r.statusManager === 'approved' && r.statusAdmin === 'pending').length;
+            
+            document.getElementById('chiefCount').innerText = chiefCount;
+            document.getElementById('managerCount').innerText = managerCount;
+            document.getElementById('adminCount').innerText = adminCount;
+            
+            // إذا كان المستخدم مسؤول، قم بتحديث تأثير الوميض
+            if (currentUser && currentUser.id === 'admin') {
+                startFlashingButtons();
+            }
+        }
+        
+        // --- عرض الطلبات في لوحة المسؤول ---
+        function renderRequests(filter = '') {
+            let tbody = document.getElementById('requestsTable');
+            tbody.innerHTML = '';
+            
+            if (requests.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10">لا توجد طلبات لعرضها</td></tr>';
+                return;
+            }
+            
+            requests.forEach(r => {
+                if (filter && !r.employeeName.includes(filter) && !r.employeeId.includes(filter)) return;
+                
+                let getStatusIcon = (status) => {
+                    if (status === 'pending') return '<span class="status-badge status-pending">⏳</span>';
+                    if (status === 'approved') return '<span class="status-badge status-approved">✅</span>';
+                    if (status === 'rejected') return '<span class="status-badge status-rejected">❌</span>';
+                    return status;
+                };
+                
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${r.employeeName}</td>
+                    <td>${r.employeeId}</td>
+                    <td>${r.section}</td>
+                    <td>${r.type}</td>
+                    <td>${r.reason || r.newSection || ''}</td>
+                    <td>${r.days || ''}</td>
+                    <td>${getStatusIcon(r.statusChief)} ${r.chiefNote ? `<br><small>(${r.chiefNote})</small>` : ''}</td>
+                    <td>${getStatusIcon(r.statusManager)} ${r.managerNote ? `<br><small>(${r.managerNote})</small>` : ''}</td>
+                    <td>${getStatusIcon(r.statusAdmin)} ${r.adminNote ? `<br><small>(${r.adminNote})</small>` : ''}</td>
+                    <td>${getStatusIcon(r.statusExecute)}</td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+        }
+        
+        function filterRequests() {
+            let value = document.getElementById('searchInput').value.trim();
+            renderRequests(value);
+        }
+        
+        // --- موافقة/رفض مع سبب ---
+        function openChief() {
+            document.getElementById('chiefBtn').classList.remove('flash');
+            
+            let section = prompt("اختر القسم لرؤية الطلبات (الحرم/السجاد):");
+            if (!section) return;
+            
+            let pendingRequests = requests.filter(r => r.statusChief === 'pending' && r.section === section);
+            
+            if (pendingRequests.length === 0) {
+                alert('لا توجد طلبات معلقة لرئيس القسم في هذا القسم');
+                return;
+            }
+            
+            pendingRequests.forEach((r, i) => {
+                let action = prompt(`رئيس القسم: ${r.employeeName}\nنوع الطلب: ${r.type}\nالتفاصيل: ${r.reason || r.newSection || ''}\n\nاكتب "موافق" أو "رفض-السبب"`, 'موافق');
+                if (!action) return;
+                
+                let parts = action.split('-');
+                let decision = parts[0].trim();
+                let note = parts[1] ? parts[1].trim() : '';
+                
+                if (decision === 'موافق') {
+                    r.statusChief = 'approved';
+                    r.chiefNote = note || 'موافق';
+                } else if (decision === 'رفض') {
+                    r.statusChief = 'rejected';
+                    r.chiefNote = note || 'مرفوض';
+                    r.statusExecute = 'ملغى';
+                }
+            });
+            
+            saveDataToLocalStorage();
+            updateCounts();
+            renderRequests();
+            renderEmployeeRequests();
+        }
+        
+        function openManager() {
+            document.getElementById('managerBtn').classList.remove('flash');
+            
+            let pendingRequests = requests.filter(r => r.statusChief === 'approved' && r.statusManager === 'pending');
+            
+            if (pendingRequests.length === 0) {
+                alert('لا توجد طلبات معلقة للمدير');
+                return;
+            }
+            
+            pendingRequests.forEach((r, i) => {
+                let action = prompt(`المدير: ${r.employeeName}\nنوع الطلب: ${r.type}\nالتفاصيل: ${r.reason || r.newSection || ''}\nرئيس القسم وافق: ${r.chiefNote}\n\nاكتب "موافق" أو "رفض-السبب"`, 'موافق');
+                if (!action) return;
+                
+                let parts = action.split('-');
+                let decision = parts[0].trim();
+                let note = parts[1] ? parts[1].trim() : '';
+                
+                if (decision === 'موافق') {
+                    r.statusManager = 'approved';
+                    r.managerNote = note || 'موافق';
+                } else if (decision === 'رفض') {
+                    r.statusManager = 'rejected';
+                    r.managerNote = note || 'مرفوض';
+                    r.statusExecute = 'ملغى';
+                }
+            });
+            
+            saveDataToLocalStorage();
+            updateCounts();
+            renderRequests();
+            renderEmployeeRequests();
+        }
+        
+        function openAdmin() {
+            document.getElementById('adminBtn').classList.remove('flash');
+            
+            let pendingRequests = requests.filter(r => r.statusManager === 'approved' && r.statusAdmin === 'pending');
+            
+            if (pendingRequests.length === 0) {
+                alert('لا توجد طلبات معلقة للإدارة');
+                return;
+            }
+            
+            pendingRequests.forEach((r, i) => {
+                let action = prompt(`الإدارة: ${r.employeeName}\nنوع الطلب: ${r.type}\nالتفاصيل: ${r.reason || r.newSection || ''}\nالمدير وافق: ${r.managerNote}\n\nاكتب "موافق" أو "رفض-السبب"`, 'موافق');
+                if (!action) return;
+                
+                let parts = action.split('-');
+                let decision = parts[0].trim();
+                let note = parts[1] ? parts[1].trim() : '';
+                
+                if (decision === 'موافق') {
+                    r.statusAdmin = 'approved';
+                    r.adminNote = note || 'موافق';
+                    
+                    if (r.type === 'حذف') {
+                        let idx = employees.findIndex(e => e.id === r.employeeId);
+                        if (idx !== -1) {
+                            employees.splice(idx, 1);
+                            r.statusExecute = 'تم التنفيذ';
+                        }
+                    } else if (r.type === 'نقل') {
+                        let emp = employees.find(e => e.id === r.employeeId);
+                        if (emp) {
+                            emp.section = r.newSection;
+                            r.statusExecute = 'تم التنفيذ';
+                        }
+                    } else {
+                        r.statusExecute = 'تم التنفيذ';
+                    }
+                } else if (decision === 'رفض') {
+                    r.statusAdmin = 'rejected';
+                    r.adminNote = note || 'مرفوض';
+                    r.statusExecute = 'ملغى';
+                    
+                    // إذا كان طلب إجازة مرفوضًا، نعيد الرصيد للموظف
+                    if (r.type === 'إجازة') {
+                        let emp = employees.find(e => e.id === r.employeeId);
+                        if (emp) {
+                            emp.leaveBalance += r.days;
+                        }
+                    }
+                }
+            });
+            
+            saveDataToLocalStorage();
+            updateCounts();
+            renderRequests();
+            renderEmployeeRequests();
+        }
+        
+        // --- إدارة الموظفين ---
+        function openEmployeeManagement() {
+            document.getElementById('employeeManagementModal').style.display = 'block';
+            renderEmployeesTable();
+        }
+        
+        function closeEmployeeManagement() {
+            document.getElementById('employeeManagementModal').style.display = 'none';
+        }
+        
+        function switchTab(id, event) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            
+            document.getElementById(id).classList.add('active');
+            if (event) event.currentTarget.classList.add('active');
+        }
+        
+        function addEmployeeManually() {
+            let name = document.getElementById('empName').value.trim();
+            let id = document.getElementById('empId').value.trim();
+            let section = document.getElementById('empSection').value.trim();
+            let leaveBalance = parseInt(document.getElementById('empLeaveBalance').value) || 21;
+            
+            if (!name || !id || !section) {
+                alert('⚠️ املأ الحقول المطلوبة');
+                return;
+            }
+            
+            if (employees.some(e => e.id === id)) {
+                alert('⚠️ الرقم الوظيفي مستخدم مسبقًا');
+                return;
+            }
+            
+            employees.push({name, id, section, leaveBalance});
+            saveDataToLocalStorage();
+            
+            alert('✅ تم إضافة الموظف بنجاح');
+            renderEmployeesTable();
+            
+            // مسح الحقول
+            document.getElementById('empName').value = '';
+            document.getElementById('empId').value = '';
+            document.getElementById('empSection').value = '';
+            document.getElementById('empLeaveBalance').value = '21';
+        }
+        
+        function readExcelFile() {
+            let file = document.getElementById('excelFile').files[0];
+            if (!file) {
+                alert('⚠️ يرجى اختيار ملف Excel');
+                return;
+            }
+            
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                let data = new Uint8Array(e.target.result);
+                let workbook = XLSX.read(data, {type: 'array'});
+                let worksheet = workbook.Sheets[workbook.SheetNames[0]];
+                let jsonData = XLSX.utils.sheet_to_json(worksheet);
+                
+                let added = 0;
+                let skipped = 0;
+                
+                jsonData.forEach(row => {
+                    let name = row['الاسم'] || '';
+                    let id = row['الرقم الوظيفي'] || '';
+                    let section = row['القسم'] || '';
+                    let leaveBalance = row['رصيد الإجازات'] || 21;
+                    
+                    if (name && id && section && !employees.some(e => e.id === id.toString())) {
+                        employees.push({
+                            name: name.toString(),
+                            id: id.toString(),
+                            section: section.toString(),
+                            leaveBalance: parseInt(leaveBalance) || 21
+                        });
+                        added++;
+                    } else {
+                        skipped++;
+                    }
+                });
+                
+                saveDataToLocalStorage();
+                alert(`✅ تم استيراد ${added} موظف\n⏩ تم تخطي ${skipped} موظف (موجود مسبقًا أو بيانات ناقصة)`);
+                renderEmployeesTable();
+            };
+            
+            reader.readAsArrayBuffer(file);
+        }
+        
+        function renderEmployeesTable() {
+            let tbody = document.getElementById('employeesTable');
+            tbody.innerHTML = '';
+            
+            if (employees.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5">لا يوجد موظفين مسجلين</td></tr>';
+                return;
+            }
+            
+            employees.forEach(e => {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${e.name}</td>
+                    <td>${e.id}</td>
+                    <td>${e.section}</td>
+                    <td>${e.leaveBalance}</td>
+                    <td>
+                        <button class="btn-danger" type="button" onclick="requestDeleteEmployee('${e.id}')">حذف</button>
+                        <button class="btn-info" type="button" onclick="requestTransferEmployee('${e.id}')">نقل</button>
+                    </td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+        }
+        
+        // تهيئة الواجهة عند التحميل
+        window.onload = function() {
+            updateCounts();
+        };
+    </script>
+</body>
+</html>
