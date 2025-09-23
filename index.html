@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام إدارة الموظفين - الحرم المكي</title>
+    <title>نظام إدارة الموظفين - المسجد النبوي الشريف</title>
     <style>
         /* أنماط واجهة الحرم */
         * {
@@ -611,7 +611,7 @@
                             <th>حالة الرئيس</th>
                             <th>حالة المدير</th>
                             <th>حالة الإدارة</th>
-                            <th>التنфиذ</th>
+                            <th>التنفيذ</th>
                         </tr>
                     </thead>
                     <tbody id="requestsTable"></tbody>
@@ -667,6 +667,13 @@
 
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script>
+        // --- كلمات المرور ---
+        const passwords = {
+            chief: "chief123",
+            manager: "manager123",
+            admin: "admin123"
+        };
+
         // --- وظائف الانتقال بين الواجهات ---
         function showEmployeeSystem() {
             document.getElementById('haramInterface').style.display = 'none';
@@ -763,6 +770,13 @@
         }
         
         function loginAdmin() {
+            // التحقق من كلمة المرور أولاً
+            let entered = prompt("أدخل كلمة مرور المسؤول:");
+            if (entered !== passwords.admin) {
+                alert("❌ كلمة المرور خاطئة!");
+                return;
+            }
+            
             currentUser = {name: 'مسؤول', id: 'admin'};
             
             document.getElementById('adminPanel').style.display = 'block';
@@ -991,6 +1005,13 @@
         
         // --- موافقة/رفض مع سبب ---
         function openChief() {
+            // التحقق من كلمة المرور أولاً
+            let entered = prompt("أدخل كلمة مرور رئيس القسم:");
+            if (entered !== passwords.chief) {
+                alert("❌ كلمة المرور خاطئة!");
+                return;
+            }
+            
             document.getElementById('chiefBtn').classList.remove('flash');
             
             let section = prompt("اختر القسم لرؤية الطلبات (الحرم/السجاد):");
@@ -1028,6 +1049,13 @@
         }
         
         function openManager() {
+            // التحقق من كلمة المرور أولاً
+            let entered = prompt("أدخل كلمة مرور المدير:");
+            if (entered !== passwords.manager) {
+                alert("❌ كلمة المرور خاطئة!");
+                return;
+            }
+            
             document.getElementById('managerBtn').classList.remove('flash');
             
             let pendingRequests = requests.filter(r => r.statusChief === 'approved' && r.statusManager === 'pending');
@@ -1062,6 +1090,13 @@
         }
         
         function openAdmin() {
+            // التحقق من كلمة المرور أولاً
+            let entered = prompt("أدخل كلمة مرور الإدارة:");
+            if (entered !== passwords.admin) {
+                alert("❌ كلمة المرور خاطئة!");
+                return;
+            }
+            
             document.getElementById('adminBtn').classList.remove('flash');
             
             let pendingRequests = requests.filter(r => r.statusManager === 'approved' && r.statusAdmin === 'pending');
@@ -1121,6 +1156,13 @@
         
         // --- إدارة الموظفين ---
         function openEmployeeManagement() {
+            // التحقق من كلمة المرور أولاً
+            let entered = prompt("أدخل كلمة مرور المسؤول:");
+            if (entered !== passwords.admin) {
+                alert("❌ كلمة المرور خاطئة!");
+                return;
+            }
+            
             document.getElementById('employeeManagementModal').style.display = 'block';
             renderEmployeesTable();
         }
