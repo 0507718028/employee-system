@@ -59,15 +59,15 @@
         }
         
         .logo {
-            width: 180px;
-            height: 180px;
-            margin-bottom: 30px;
+            width: 140px;
+            height: 140px;
+            margin-bottom: 25px;
             border-radius: 50%;
             border: 5px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(5px);
-            padding: 15px;
+            padding: 12px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -79,9 +79,9 @@
         }
         
         .enter-btn {
-            margin-top: 40px;
-            padding: 15px 40px;
-            font-size: 18px;
+            margin-top: 30px;
+            padding: 14px 35px;
+            font-size: 16px;
             background: linear-gradient(135deg, #0d8043 0%, #0a5c32 100%);
             color: white;
             border: none;
@@ -91,6 +91,8 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             font-weight: bold;
             letter-spacing: 1px;
+            width: 90%;
+            max-width: 280px;
         }
         
         .enter-btn:hover {
@@ -103,17 +105,20 @@
             color: white;
             margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            width: 100%;
         }
         
         .welcome-text h1 {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             margin-bottom: 10px;
             font-weight: 600;
+            line-height: 1.4;
         }
         
         .welcome-text p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             opacity: 0.9;
+            line-height: 1.5;
         }
         
         /* أنماط نظام إدارة الموظفين */
@@ -123,7 +128,7 @@
             height: 100vh;
             overflow-y: auto;
             background-color: #f7f7f7;
-            padding: 20px;
+            padding: 15px;
             position: fixed;
             top: 0;
             left: 0;
@@ -142,10 +147,10 @@
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 100%;
             margin: 0 auto;
             background: white;
-            padding: 20px;
+            padding: 15px;
             border-radius: 12px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
@@ -153,25 +158,27 @@
         header {
             background: linear-gradient(135deg, #2c3e50, #1a2530);
             color: white;
-            padding: 20px;
+            padding: 15px;
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: center;
         }
         
         h1, h2, h3, h4 {
             margin-top: 0;
             color: #2c3e50;
+            line-height: 1.4;
         }
         
         button {
-            padding: 10px 20px;
+            padding: 10px 15px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
-            margin: 5px;
+            font-size: 14px;
+            margin: 4px;
             transition: all 0.3s ease;
+            min-height: 44px; /* للجوالات - سهولة الضغط */
         }
         
         .btn-primary {
@@ -206,34 +213,39 @@
         }
         
         input[type="text"], input[type="number"], select {
-            padding: 10px;
-            width: 200px;
+            padding: 12px;
+            width: 100%;
             border-radius: 6px;
             border: 1px solid #ccc;
-            margin: 5px;
+            margin: 5px 0;
             font-size: 16px;
+            min-height: 44px; /* للجوالات - سهولة الضغط */
         }
         
         table {
             width: 100%;
-            margin: 20px auto;
+            margin: 15px auto;
             border-collapse: collapse;
             background: #fff;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            font-size: 14px;
         }
         
         th, td {
             border: 1px solid #ddd;
-            padding: 12px;
+            padding: 10px 6px;
             text-align: center;
+            word-break: break-word;
+            font-size: 13px;
         }
         
         th {
             background: var(--primary);
             color: white;
             font-weight: bold;
+            font-size: 13px;
         }
         
         tr:nth-child(even) {
@@ -300,7 +312,7 @@
             margin: 5% auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 80%;
+            width: 95%;
             max-width: 800px;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
@@ -321,17 +333,22 @@
         .tabs {
             display: flex;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             border-bottom: 2px solid #ddd;
+            flex-wrap: wrap;
         }
         
         .tab {
-            padding: 12px 24px;
+            padding: 10px 15px;
             cursor: pointer;
             background: #f1f1f1;
             border-radius: 5px 5px 0 0;
-            margin: 0 5px;
+            margin: 0 3px;
             transition: all 0.3s ease;
+            font-size: 14px;
+            flex: 1;
+            text-align: center;
+            min-width: 100px;
         }
         
         .tab.active {
@@ -342,7 +359,7 @@
         
         .tab-content {
             display: none;
-            padding: 20px;
+            padding: 15px;
             border: 1px solid #ddd;
             border-radius: 0 0 8px 8px;
         }
@@ -353,8 +370,8 @@
         
         .login-section {
             text-align: center;
-            margin: 20px 0;
-            padding: 20px;
+            margin: 15px 0;
+            padding: 15px;
             background: white;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -362,8 +379,8 @@
         
         .panel {
             display: none;
-            margin-top: 20px;
-            padding: 20px;
+            margin-top: 15px;
+            padding: 15px;
             background: white;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -371,9 +388,9 @@
         
         .status-badge {
             display: inline-block;
-            padding: 5px 10px;
+            padding: 4px 8px;
             border-radius: 20px;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
         }
         
@@ -396,40 +413,44 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            margin: 20px 0;
+            margin: 15px 0;
+            gap: 8px;
         }
         
         .action-btn {
             position: relative;
-            min-width: 180px;
-            margin: 10px;
-            padding: 15px;
+            min-width: 140px;
+            margin: 5px;
+            padding: 12px;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 15px;
+            flex: 1;
+            max-width: 200px;
         }
         
         .count-badge {
             position: absolute;
-            top: -10px;
-            left: -10px;
+            top: -8px;
+            left: -8px;
             background-color: var(--danger);
             color: white;
             border-radius: 50%;
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 12px;
         }
         
         .search-container {
-            margin: 20px 0;
+            margin: 15px 0;
             text-align: center;
         }
         
         .search-input {
-            width: 300px !important;
+            width: 100% !important;
+            max-width: 400px;
             padding: 12px 20px !important;
             border: 2px solid #ddd !important;
             border-radius: 30px !important;
@@ -438,31 +459,42 @@
         .employee-card {
             background: white;
             border-radius: 10px;
-            padding: 20px;
-            margin: 15px 0;
+            padding: 15px;
+            margin: 10px 0;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             display: flex;
+            flex-direction: column;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
         }
         
         .employee-info {
             flex: 1;
+            width: 100%;
+            margin-bottom: 10px;
         }
         
         .employee-actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
         }
         
+        .employee-actions button {
+            flex: 1;
+            max-width: 120px;
+        }
+        
+        /* تحسينات للجوالات */
         @media (max-width: 768px) {
             .logo {
-                width: 150px;
-                height: 150px;
+                width: 120px;
+                height: 120px;
             }
             
             .welcome-text h1 {
-                font-size: 2rem;
+                font-size: 1.5rem;
             }
             
             .welcome-text p {
@@ -470,39 +502,180 @@
             }
             
             .enter-btn {
-                padding: 12px 30px;
-                font-size: 16px;
+                padding: 12px 25px;
+                font-size: 15px;
+                max-width: 250px;
             }
             
             .container {
                 padding: 10px;
             }
             
-            input[type="text"], input[type="number"], select {
-                width: 100%;
-                margin: 5px 0;
+            header {
+                padding: 12px;
+            }
+            
+            header h1 {
+                font-size: 1.4rem;
+            }
+            
+            header p {
+                font-size: 0.9rem;
+            }
+            
+            .tabs {
+                flex-direction: row;
+                overflow-x: auto;
+                justify-content: flex-start;
+            }
+            
+            .tab {
+                min-width: 110px;
+                font-size: 13px;
+                padding: 8px 10px;
             }
             
             .action-buttons {
                 flex-direction: column;
+                align-items: center;
             }
             
             .action-btn {
                 width: 100%;
+                max-width: 300px;
+                min-width: auto;
             }
             
             .modal-content {
                 width: 95%;
-                margin: 10% auto;
+                margin: 3% auto;
+                padding: 15px;
             }
             
-            .tabs {
-                flex-direction: column;
+            table {
+                font-size: 12px;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            th, td {
+                padding: 8px 5px;
+                font-size: 12px;
+            }
+            
+            button {
+                font-size: 13px;
+                padding: 10px 12px;
+            }
+            
+            .login-section button {
+                width: 100%;
+                margin: 5px 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .welcome-text h1 {
+                font-size: 1.3rem;
+            }
+            
+            .welcome-text p {
+                font-size: 0.9rem;
+            }
+            
+            .enter-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+                max-width: 220px;
+            }
+            
+            .container {
+                padding: 8px;
+            }
+            
+            header {
+                padding: 10px;
+            }
+            
+            header h1 {
+                font-size: 1.2rem;
+            }
+            
+            header p {
+                font-size: 0.8rem;
             }
             
             .tab {
-                margin: 5px 0;
-                border-radius: 5px;
+                min-width: 90px;
+                font-size: 12px;
+                padding: 6px 8px;
+            }
+            
+            .action-btn {
+                min-width: 120px;
+                font-size: 14px;
+                padding: 10px;
+            }
+            
+            th, td {
+                padding: 6px 3px;
+                font-size: 11px;
+            }
+            
+            button {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
+            
+            input[type="text"], input[type="number"], select {
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            .employee-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .employee-actions button {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .logo {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .welcome-text h1 {
+                font-size: 1.2rem;
+            }
+            
+            .welcome-text p {
+                font-size: 0.85rem;
+            }
+            
+            .enter-btn {
+                padding: 8px 18px;
+                font-size: 13px;
+            }
+            
+            .tab {
+                min-width: 80px;
+                font-size: 11px;
+            }
+            
+            th, td {
+                padding: 5px 2px;
+                font-size: 10px;
             }
         }
     </style>
@@ -667,6 +840,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script>
+        // --- جميع وظائف الجافاسكريبت كما هي في الكود الأصلي ---
         // --- كلمات المرور ---
         const passwords = {
             chief: "chief123",
