@@ -1,0 +1,50 @@
+{
+  "app_name": "نظام إدارة الموظفين",
+  "app_url": "https://0507718028.github.io/employee-system/",
+  "platforms": ["ios", "android"],
+  "ios": {
+    "status_bar": {
+      "style": "automatic",
+      "background_color": "#FFFFFFFF",
+      "text_color": "automatic",
+      "overlay": true,
+      "blur": true
+    },
+    "navigation_bar": {
+      "background_color": "#0E0D08",
+      "text_color": "automatic"
+    },
+    "primary_color": "#0E0D08",
+    "splash_screen": {
+      "image": "haram.png",
+      "background_color": "#FFFFFF",
+      "dark_background_color": "#0E0D08"
+    },
+    "icon": "logo.png"
+  },
+  "android": {
+    "status_bar": {
+      "style": "automatic",
+      "background_color": "#5C5C5C",
+      "text_color": "automatic",
+      "overlay": true,
+      "blur": true
+    },
+    "navigation_bar": {
+      "background_color": "#FFFFFF",
+      "text_color": "automatic"
+    },
+    "primary_color": "#009688",
+    "splash_screen": {
+      "image": "haram.png",
+      "background_color": "#FFFFFF",
+      "dark_background_color": "#1A100B"
+    },
+    "icon": "logo.png"
+  },
+  "features": {
+    "orientation": "portrait",
+    "allow_links": true,
+    "permissions": ["camera", "storage", "notifications"]
+  }
+}
